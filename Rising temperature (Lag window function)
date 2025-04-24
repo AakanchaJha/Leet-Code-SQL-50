@@ -1,0 +1,12 @@
+with base as (select
+id,
+recorddate,
+temperature,
+lag(recorddate,1) over(order by recorddate) as prev_date,
+lag(temperature,1) over(order by recorddate) as prev_temperature
+from weather
+)
+
+select id
+from base
+where datediff(recorddate,prev_date)=1 and temperature>prev_temperature
