@@ -1,0 +1,12 @@
+with base as(
+select
+num,
+lag(num,1) over(order by id) as prev_number_1,
+lag(num,2) over(order by id) as prev_number_2
+from logs
+)
+
+select 
+distinct num as ConsecutiveNums
+from base
+where num=prev_number_1 and num=prev_number_2
